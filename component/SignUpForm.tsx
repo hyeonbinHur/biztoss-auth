@@ -1,9 +1,6 @@
 "use client";
-
-import Button from "react-bootstrap/Button";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-
 interface UserInfo {
   email: string;
   password: string;
@@ -11,7 +8,6 @@ interface UserInfo {
   username: string;
   usertype: string;
 }
-
 const FormComp = () => {
   const form1 = useForm<UserInfo>();
   const { register, handleSubmit } = form1;
