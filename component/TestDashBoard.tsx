@@ -1,6 +1,9 @@
 "use client";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
+import UpdateForm from "./UpdateForm";
+import SignInForm from "@/component/SignInForm";
+import Link from "next/link";
 
 const TestDashboard = () => {
   const { data: session } = useSession();
@@ -20,24 +23,14 @@ const TestDashboard = () => {
             width={50}
             height={50}
           />
+          <UpdateForm email={session?.user?.email as string} />
         </div>
       ) : (
         <div>
-          <div>You are not signed in</div>
+          {/* <div>You are not signed in</div> */}
           <button onClick={() => signIn("kakao")}>Continue with Kakao</button>
-          <form
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              border: "1px solid white",
-            }}
-          >
-            <label>Email </label>
-            <input type="emai" required />
-            <label> Password </label>
-            <input type="password" required />
-            <button>Submit</button>
-          </form>
+          <SignInForm />
+          <Link href={"/signup"}> Already have an account? </Link>
         </div>
       )}
     </div>

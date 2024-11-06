@@ -17,7 +17,7 @@ const page = async () => {
     <section>
       <SignUpForm />
       <Toaster position="top-right" reverseOrder={false} />
-      <Link href={"/signin"}> Already have an account? </Link>
+      <Link href={"/"}> Already have an account? </Link>
     </section>
   );
 };
