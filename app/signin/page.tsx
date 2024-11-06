@@ -14,10 +14,14 @@ const page = async () => {
   }
 
   return (
-    <section>
+    <section className="signinform">
+      <p className="signinform-item--1">
+        <span>비즈토스에 오신 것을 환영합니다.</span>
+      </p>
+
       <SignInForm />
+
       <Toaster position="top-right" reverseOrder={false} />
-      <Link href={"/signup"}> Already have an account? </Link>
     </section>
   );
 };

@@ -1,0 +1,11 @@
+@mixin respond($breakpoint) {
+    @if $breakpoint == 'tap-land' {
+        @media (max-width: 75em) { // 예: 1200px
+            @content;
+        }
+    } @else if $breakpoint == 'tab-port' {
+        @media (max-width: 48em) { // 예: 768px
+            @content;
+        }
+    }
+}

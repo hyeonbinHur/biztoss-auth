@@ -29,7 +29,6 @@ const TestDashboard = () => {
         <div style={{ padding: "5rem" }}>
           <SignInForm />
           <Link href={"/signup"}> Already have an account? </Link>
-          <button onClick={() => signIn("kakao")}>Continue with Kakao</button>
         </div>
       )}
     </div>
