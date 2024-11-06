@@ -8,16 +8,13 @@ import Link from "next/link";
 
 const page = async () => {
   const session = await getServerSession(authOptions);
-
   if (session) {
     redirect("/");
   }
-
   return (
-    <section>
+    <section className="signup-page">
       <SignUpForm />
       <Toaster position="top-right" reverseOrder={false} />
-      <Link href={"/"}> Already have an account? </Link>
     </section>
   );
 };

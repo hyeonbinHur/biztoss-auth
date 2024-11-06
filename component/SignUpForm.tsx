@@ -1,7 +1,6 @@
 "use client";
 
 import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
@@ -10,6 +9,7 @@ interface UserInfo {
   password: string;
   "pw check": string;
   username: string;
+  usertype: string;
 }
 
 const FormComp = () => {
@@ -22,63 +22,68 @@ const FormComp = () => {
       body: JSON.stringify(userinfo),
     });
     const data = await response.json();
-
     if (data.error) {
       toast.error(data.error);
     }
-
     toast.success("Account created");
   };
   return (
     <>
-      <Form
+      <form
         style={{ margin: "1rem", padding: "1rem" }}
         onSubmit={handleSubmit(handleSignUp)}
       >
-        <Form.Group className="mb-3" controlId="forUsername">
-          <Form.Label>user name</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="username"
-            required
-            {...register("username")}
-          />
-        </Form.Group>
+        <input
+          type="text"
+          placeholder="유저 프로필 아바타"
+          required
+          {...register("email")}
+        />
 
-        <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Email address</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Enter email"
-            required
-            {...register("email")}
-          />
-        </Form.Group>
+        <input
+          type="text"
+          placeholder="이메일"
+          required
+          {...register("email")}
+        />
 
-        <Form.Group className="mb-3" controlId="formBasicPassword">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type="password"
-            placeholder="Password"
-            required
-            {...register("password")}
-          />
-        </Form.Group>
+        <input
+          type="password"
+          placeholder="비밀번호"
+          required
+          {...register("password")}
+        />
 
-        <Form.Group className="mb-3" controlId="formPasswordConfirm">
-          <Form.Label>Confirm Password</Form.Label>
-          <Form.Control
-            type="password"
-            placeholder="Password"
-            required
-            {...register("pw check")}
-          />
-        </Form.Group>
+        <input
+          type="password"
+          placeholder="비밀번호 확인"
+          required
+          {...register("pw check")}
+        />
 
-        <Button variant="primary" type="submit">
-          Submit
-        </Button>
-      </Form>
+        <input
+          type="text"
+          placeholder="이름"
+          required
+          {...register("username")}
+        />
+
+        <input
+          type="text"
+          placeholder="연락처"
+          required
+          {...register("username")}
+        />
+
+        <input
+          type="text"
+          placeholder="생년월일"
+          required
+          {...register("username")}
+        />
+
+        <button type="submit">가입하기</button>
+      </form>
     </>
   );
 };

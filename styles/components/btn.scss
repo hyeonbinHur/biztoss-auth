@@ -57,3 +57,29 @@
     -webkit-font-smoothing: antialiased;
     cursor: pointer;
 }
+.btn-user-type{
+    height: 6.8867rem;
+    padding: 1.2rem 2.5rem;
+    color: #363636;
+    font-size: 15px;
+    cursor: pointer;
+    border: 1px solid rgba(54,54,54,0.2);
+    background-color: transparent;
+    font-weight: bolder;
+    transition: .2s ease;
+    &__1{
+        border-top-left-radius: .4rem ;
+        border-top-right-radius: .4rem;
+        // border: ;
+        &:hover{
+            border: 1px solid #363636;
+        }
+    }
+    &__2{
+        border-bottom-left-radius: .4rem ;
+        border-bottom-right-radius: .4rem;
+        &:hover{
+            border: 1px solid #363636;
+        }
+    }
+}

@@ -69,7 +69,7 @@ const FormComp = () => {
         </button>
       </form>
       <div className="signinform--signup">
-        <Link href={"/signup"}> 회원가입 </Link>
+        <Link href={"/usertype"}> 회원가입 </Link>
 
         <button className="btn-findId">
           <span>아이디 &middot; 비밀번호 찾기</span>
