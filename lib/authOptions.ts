@@ -35,10 +35,8 @@ export const authOptions: NextAuthOptions = {
           user.password
         );
         if (!isValid) {
-          console.log("Invalid password");
           throw new Error("Invalid password");
         }
-        console.log("Password valid:", isValid);
         return {
           id: user.id,
           name: user.username,
@@ -48,6 +46,17 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
+    async signIn({ user }) {
+      const db = await createConnection();
+      const sql = "SELECT * FROM user WHERE email = ?";
+      const [rows]: any = await db.query(sql, [user.email]);
+
+      if (rows.length === 0) {
+        const insertSql = "INSERT INTO user (email, username) VALUES (?, ?)";
+        await db.query(insertSql, [user.email, user.name]);
+      }
+      return true;
+    },
     jwt: async ({ user, token, trigger, session }) => {
       if (trigger === "update") {
         return { ...token, ...session.user };

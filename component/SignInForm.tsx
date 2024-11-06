@@ -30,7 +30,7 @@ const FormComp = () => {
   };
 
   return (
-    <>
+    <div style={{ margin: "5rem" }}>
       <Form
         style={{ margin: "1rem", padding: "1rem" }}
         onSubmit={handleSubmit(handleSignUp)}
@@ -57,7 +57,7 @@ const FormComp = () => {
           Submit
         </Button>
       </Form>
-    </>
+    </div>
   );
 };
 

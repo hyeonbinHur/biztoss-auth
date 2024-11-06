@@ -26,11 +26,10 @@ const TestDashboard = () => {
           <UpdateForm email={session?.user?.email as string} />
         </div>
       ) : (
-        <div>
-          {/* <div>You are not signed in</div> */}
-          <button onClick={() => signIn("kakao")}>Continue with Kakao</button>
+        <div style={{ padding: "5rem" }}>
           <SignInForm />
           <Link href={"/signup"}> Already have an account? </Link>
+          <button onClick={() => signIn("kakao")}>Continue with Kakao</button>
         </div>
       )}
     </div>
