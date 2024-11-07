@@ -4,7 +4,6 @@ import { redirect } from "next/navigation";
 import SignUpForm from "@/component/SignUpForm";
 import React from "react";
 import { Toaster } from "react-hot-toast";
-import Link from "next/link";
 
 const page = async () => {
   const session = await getServerSession(authOptions);
@@ -12,7 +11,8 @@ const page = async () => {
     redirect("/");
   }
   return (
-    <section className="signup-page">
+    <section className="signup">
+      <p className="signup--title">회원님의 정보를 입력해주세요.</p>
       <SignUpForm />
       <Toaster position="top-right" reverseOrder={false} />
     </section>

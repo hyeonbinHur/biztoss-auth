@@ -12,7 +12,7 @@
     cursor: pointer;
     touch-action: manipulation;
     justify-content: center;
-    
+
 }
 
 .btn-kakao {
@@ -33,6 +33,7 @@
     width: 100%;
     height: 4rem;
     margin-bottom: 1rem;
+
     &:hover {
         background-color: rgba(23, 193, 160, 0.45);
     }
@@ -47,39 +48,53 @@
     &:hover {
         border-color: #363636;
     }
+
     width: 100%;
 
 }
-.btn-findId{
+
+.btn-findId {
     background-color: transparent;
     border: transparent;
     font-size: 1.6rem;
     -webkit-font-smoothing: antialiased;
     cursor: pointer;
 }
-.btn-user-type{
+
+.btn-user-type {
     height: 6.8867rem;
     padding: 1.2rem 2.5rem;
     color: #363636;
     font-size: 15px;
     cursor: pointer;
-    border: 1px solid rgba(54,54,54,0.2);
+    border: 1px solid rgba(54, 54, 54, 0.2);
     background-color: transparent;
     font-weight: bolder;
     transition: .2s ease;
-    &__1{
-        border-top-left-radius: .4rem ;
+
+    &__1 {
+        border-top-left-radius: .4rem;
         border-top-right-radius: .4rem;
+
         // border: ;
-        &:hover{
+        &:hover {
             border: 1px solid #363636;
         }
     }
-    &__2{
-        border-bottom-left-radius: .4rem ;
+
+    &__2 {
+        border-bottom-left-radius: .4rem;
         border-bottom-right-radius: .4rem;
-        &:hover{
+
+        &:hover {
             border: 1px solid #363636;
         }
+    }
+}
+
+.btn-signup {
+    height: 4.5rem;
+    &:hover {
+        background-color: variable.$color-mint;
     }
 }
