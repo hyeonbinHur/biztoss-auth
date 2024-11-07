@@ -1,0 +1,46 @@
+[
+  {
+    "id": 1,
+    "title": "다이어트 경쟁하는 소셜 메타버스 앱",
+    "image": "/item-1.png",
+    "monthlyProfit": "없음 (초기단계)",
+    "price": "1000만원 (협의가능)",
+    "biztossVerify": true,
+    "applicaion": true,
+    "shoppingmall": false,
+    "like": 1
+  },
+  {
+    "id": 2,
+    "title": "모던한 디자인의 무신사 입점 브랜드",
+    "image": "/item-2.png",
+    "monthlyProfit": "100 ~ 3000만원 대",
+    "price": "8000만원 (협의가능)",
+    "biztossVerify": true,
+    "applicaion": false,
+    "shoppingmall": true,
+    "like": 1
+  },
+  {
+    "id": 3,
+    "title": "경매를 더한 중고거래 어플리케이션",
+    "image": "/item-3.png",
+    "monthlyProfit": "없음 (초기단계)",
+    "price": "3000만원 (협의가능)",
+    "biztossVerify": true,
+    "applicaion": true,
+    "shoppingmall": false,
+    "like": 5
+  },
+  {
+    "id": 4,
+    "title": "심플 & 러블리 1020 여성의류 쇼핑몰",
+    "image": "/item-1.png",
+    "monthlyProfit": "1000 ~ 3000만원대",
+    "price": "4000만원 (협의가능)",
+    "biztossVerify": true,
+    "applicaion": false,
+    "shoppingmall": true,
+    "like": 3
+  }
+]

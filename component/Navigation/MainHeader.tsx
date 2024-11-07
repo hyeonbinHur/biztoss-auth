@@ -8,7 +8,7 @@ const MainHeader = () => {
   const { data: session, update } = useSession();
 
   return (
-    <nav>
+    <nav className="nav">
       <ul className="nav--container">
         <li>
           <NavLink href="/">
@@ -16,19 +16,19 @@ const MainHeader = () => {
           </NavLink>
         </li>
         <li>
-          <NavLink href="/">매물 둘러보기</NavLink>
+          <NavLink href="/explore">매물 둘러보기</NavLink>
         </li>
         <li>
-          <NavLink href="/">비즈니스 매각신청</NavLink>
+          <NavLink href="/applyBusinessSale">비즈니스 매각신청</NavLink>
         </li>
         <li>
-          <NavLink href="/">플랜 안내</NavLink>
+          <NavLink href="/planInfo">플랜 안내</NavLink>
         </li>
         <li>
-          <NavLink href="/">비즈토스 FAQ</NavLink>
+          <NavLink href="/faq">비즈토스 FAQ</NavLink>
         </li>
         <li>
-          <NavLink href="/">About us</NavLink>
+          <NavLink href="/aboutus">About us</NavLink>
         </li>
         <li>
           <NavLink href="/">.</NavLink>
