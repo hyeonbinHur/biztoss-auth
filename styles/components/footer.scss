@@ -1,0 +1,36 @@
+.footer {
+    height: 31.8rem;
+    background: #e4e9ea;
+    color: #11312b;
+    font-size: 11px;
+    padding: 3rem 0;
+    display: flex;
+    justify-content: center;
+    &--container{
+        width: 128rem;
+    }
+    &--policy{
+        margin-bottom: 1.5rem;
+        &__2{
+            margin-left: 1.5rem;
+            font-weight: bold;
+        }
+    }
+    &--site-name{
+        font-size: 1.1rem;
+        margin-bottom: 0.88rem;
+    }
+    &--company-name{
+        font-size: 1.6rem;
+        font-weight: bold;
+        color: rgb(78, 85, 89);
+        margin-bottom: 1.87rem;
+
+    }
+    &--company-ul{
+        list-style: none;
+        font-size: 1.3rem;
+        color: rgb(81, 86, 90);
+        line-height: 2rem;
+    }
+}
