@@ -1,5 +1,4 @@
 import type { NextConfig } from "next";
-
 const nextConfig: NextConfig = {
   /* config options here */
   images: {
@@ -10,8 +9,11 @@ const nextConfig: NextConfig = {
     ],
   },
   sassOptions: {
-    sourceMap: true,
+    sourceMap: false,
+    quietDeps: true, // Sass 경고 줄이기
   },
+
+  reactStrictMode: false,
 };
 
 export default nextConfig;

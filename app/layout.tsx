@@ -10,6 +10,15 @@ export const metadata: Metadata = {
     icon: "/bizz.png",
   },
 };
+if (process.env.NODE_ENV === "development") {
+  const originalWarn = console.warn;
+  console.warn = (...args) => {
+    if (args[0].includes("The legacy JS API is deprecated")) {
+      return;
+    }
+    originalWarn(...args); // 다른 경고는 계속 표시
+  };
+}
 
 export default function RootLayout({
   children,

@@ -25,25 +25,21 @@
         z-index: 0;
     }
 }
-
 .item--card {
     &__like {
         display: flex;
         align-items: center;
         gap: 0.5rem;
     }
-
     &--trolly {
         width: 1.6rem;
         height: 1.6rem;
         margin-top: -0.5rem;
     }
-
     &--heart {
         width: 1.5rem;
         height: 1.5rem;
     }
-
     &--footer {
         margin-top: 3rem;
         display: flex;

@@ -22,13 +22,13 @@ const MainHeader = () => {
           <NavLink href="/applyBusinessSale">비즈니스 매각신청</NavLink>
         </li>
         <li>
-          <NavLink href="/planInfo">플랜 안내</NavLink>
+          <NavLink href="/">플랜 안내</NavLink>
         </li>
         <li>
-          <NavLink href="/faq">비즈토스 FAQ</NavLink>
+          <NavLink href="/">비즈토스 FAQ</NavLink>
         </li>
         <li>
-          <NavLink href="/aboutus">About us</NavLink>
+          <NavLink href="/">About us</NavLink>
         </li>
         <li>
           <NavLink href="/">.</NavLink>
