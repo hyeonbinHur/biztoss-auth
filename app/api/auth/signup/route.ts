@@ -4,12 +4,20 @@ import { createConnection } from "@/lib/mysqlClient";
 export async function POST(request: Request) {
   try {
     const db = await createConnection();
-    const { username, email, password } = await request.json();
+    const {
+      username,
+      email,
+      password,
+      image,
+      usertype = "null",
+    } = await request.json();
+
     const bcrypt = require("bcrypt");
     const hasedPassword = await bcrypt.hash(password, 10);
-    const val = [username, email, hasedPassword];
-    console.log(hasedPassword);
-    const sql = "INSERT INTO user (username, email, password) VALUES (?, ?, ?)";
+    const val = [username, email, hasedPassword, image, usertype];
+
+    const sql =
+      "INSERT INTO user (username, email, password, image, usertype) VALUES (?, ?, ?, ?, ?)";
     const [result] = await db.query(sql, val);
 
     //테스트용도 실제로는 보안위협으로 response에 유저 정보를 보내면 x

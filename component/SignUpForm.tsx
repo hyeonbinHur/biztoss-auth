@@ -6,6 +6,8 @@ import KameraPng from "@/public/camera.png";
 import DefaultUser from "@/public/profile-picture.png";
 import EditPng from "@/public/edit.png";
 import BinPng from "@/public/trash-bin.png";
+import AWS from "aws-sdk";
+
 interface UserInfo {
   image: string;
   email: string;
@@ -17,8 +19,10 @@ interface UserInfo {
 const FormComp = () => {
   const form1 = useForm<UserInfo>();
   const { register, handleSubmit } = form1;
+  //const image file config
   const [isEditImage, setIsEditImage] = useState(false);
   const [uploadImgUrl, setUploadImgUrl] = useState("");
+  const [ogFile, setOgFile] = useState<any>(null);
   const [year, setYear] = useState("1990");
   const [month, setMonth] = useState("");
   const [day, setDay] = useState("");
@@ -28,6 +32,8 @@ const FormComp = () => {
   const dropdownRef = useRef<HTMLUListElement | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
+  //s3 config
+  const [bucketInfo, setBucketInfo] = useState<any>(null);
   const handleClickOutside = (event: MouseEvent) => {
     if (
       dropdownRef.current &&
@@ -36,6 +42,20 @@ const FormComp = () => {
       setIsEditImage(false);
     }
   };
+
+  useEffect(() => {
+    // assign & access to the bucket using AWS root key
+    AWS.config.update({
+      accessKeyId: process.env.NEXT_PUBLIC_S3_ACCESS,
+      secretAccessKey: process.env.NEXT_PUBLIC_S3_SECRET_ACCESS,
+    });
+    const myBucket = new AWS.S3({
+      params: { Bucket: "biztoss-hb" },
+      region: "us-east-1",
+    });
+    setBucketInfo(myBucket);
+  }, []);
+
   useEffect(() => {
     if (isEditImage) {
       document.addEventListener("mousedown", handleClickOutside);
@@ -58,22 +78,56 @@ const FormComp = () => {
           setUploadImgUrl(reader.result);
           console.log(reader.result);
           setIsEditImage(false);
+          setOgFile(files[0]);
         }
       };
     }
   };
-  const handleSignUp = async (userinfo: UserInfo) => {
-    console.log(userinfo);
-    const response = await fetch("/api/auth/signup", {
-      method: "POST",
-      body: JSON.stringify(userinfo),
+
+  const uploadFile = async () => {
+    const params = {
+      ACL: "public-read",
+      ContentType: "image/jpeg",
+      Body: ogFile,
+      Bucket: "biztoss-hb",
+      Key: "upload/" + ogFile.name,
+    };
+
+    return new Promise<string | false>((resolve) => {
+      bucketInfo.putObject(params).send((err: any) => {
+        if (err) {
+          console.log(err);
+          resolve(false);
+        } else {
+          const url = `https://${params.Bucket}.s3.${bucketInfo.config.region}.amazonaws.com/${params.Key}`;
+          resolve(url);
+        }
+      });
     });
-    const data = await response.json();
-    if (data.error) {
-      toast.error(data.error);
-    }
-    toast.success("Account created");
   };
+
+  const handleSignUp = async (userinfo: UserInfo) => {
+    const imageURL = await uploadFile();
+    if (imageURL !== false) {
+      const storedUserType = localStorage.getItem("userType");
+      userinfo.usertype = storedUserType as string;
+      userinfo.image = imageURL;
+      const response = await fetch("/api/auth/signup", {
+        method: "POST",
+        body: JSON.stringify(userinfo),
+      });
+      const data = await response.json();
+      if (data.error) {
+        toast.error(data.error);
+      } else {
+        console.log(userinfo);
+        toast.success("Account created");
+      }
+    } else {
+      toast.error("Image upload failed");
+    }
+  };
+
   const handleEditClick = () => {
     fileInputRef.current?.click(); // 클릭 이벤트를 트리거
   };
