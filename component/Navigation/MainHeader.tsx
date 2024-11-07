@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
-import Logo from "@/public/bizz.png";
 import NavLink from "./NavLink";
+import NavLogo from "@/public/biztoss-nav-logo.png";
 import { useSession } from "next-auth/react";
 
 const MainHeader = () => {
@@ -12,8 +12,7 @@ const MainHeader = () => {
       <ul className="nav--container">
         <li>
           <NavLink href="/">
-            {/* <Image src={Logo} alt="biztoss Logo" /> */}
-            Biztoss
+            <Image src={NavLogo} alt="biztoss Logo" className="nav--logo" />
           </NavLink>
         </li>
         <li>
@@ -41,7 +40,6 @@ const MainHeader = () => {
             <NavLink href="/signin">로그인</NavLink>
           )}
         </li>
-        <button onClick={() => console.log(session?.user)}>console</button>
       </ul>
     </nav>
   );

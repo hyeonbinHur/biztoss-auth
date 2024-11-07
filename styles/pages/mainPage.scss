@@ -1,0 +1,318 @@
+.section--1 {
+    width: 100%;
+    height: 59.6367rem;
+    background-image: url('/biztoss-background.png');
+    background-position: 50% 50%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    padding-top: 11.8rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    &__title {
+        font-weight: 700;
+        font-size: 7.2rem;
+        line-height: 1.1;
+        text-align: center;
+    }
+
+    &__sub-title {
+        display: block;
+        height: 6.6rem;
+        line-height: 2.2;
+        text-align: center;
+        font-size: 3.6rem;
+        color: rgb(96, 99, 106);
+        margin-bottom: 5.7rem;
+    }
+
+    &__span {
+        font-size: 2.2rem;
+        display: block;
+        width: 100%;
+        color: rgb(67, 71, 77);
+        text-align: center;
+        line-height: 2.64rem;
+        font-weight: 400;
+
+    }
+
+
+    &__btn {
+        width: 23.6783rem;
+        height: 5.65667rem;
+        margin-top: 14rem;
+        border-radius: .9rem;
+        font-size: 2rem;
+        background-color: #17c1a0;
+        color: #fff !important;
+        border: 0;
+
+        &:hover {
+            color: rgba(255, 255, 255, 0.55) !important;
+        }
+    }
+}
+
+.section--2 {
+    height: 74.4667rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+
+    &__btn {
+        &__1 {
+            font-size: 1.6rem;
+            width: 11.8rem;
+            height: 3.485rem;
+            border: 1px solid black;
+            padding: .6rem 0;
+            font-weight: bold;
+            font-style: normal;
+            line-height: 1.7;
+            text-align: center;
+            white-space: nowrap;
+            color: #5a6066;
+            border: 0;
+            border-bottom: 1px solid rgba(54, 54, 54, 0.2);
+            background-color: #ffffff;
+            margin-bottom: 4.6rem;
+            cursor: pointer;
+
+            &:hover {
+                background-color: #fff;
+                color: rgba(78, 88, 98, 0.6) !important;
+            }
+        }
+
+        &__2 {
+            margin-top: 9rem;
+            width: 22.04rem;
+            height: 5.57167rem;
+            border-radius: .9rem;
+            border: 0;
+            background-color: rgba(161, 173, 182, 0.2);
+            color: #606770;
+            font-size: 1.8rem;
+            padding: 1.5rem 3.4rem;
+            white-space: nowrap;
+            font-weight: 700;
+
+            &:hover {
+                background-color: rgba(161, 173, 182, 0.2);
+                color: rgba(75, 79, 90, 0.4) !important;
+                border-color: rgba(0, 0, 0, 0.2);
+                border-width: 0px;
+            }
+
+        }
+    }
+
+    &__title {
+        display: block;
+        font-size: 3.4rem;
+        text-align: left;
+        width: 116rem;
+        color: rgb(54, 54, 54);
+        margin: 1rem 0;
+    }
+
+    &__hot {
+        display: inline-block;
+        width: 6.7rem;
+        height: 3.39833rem;
+        margin: 7px 5px;
+        vertical-align: middle !important;
+    }
+
+    &__gallery {
+        border: 1px solid black;
+        margin-top: 2.72rem;
+        width: 116rem;
+        height: 33.5rem;
+    }
+
+}
+
+.section--3 {
+    background-color: rgba(183, 223, 217, 0.2);
+    height: 46.5rem;
+    display: grid;
+    grid-template-rows: 3.6rem 1fr 3.2rem;
+    grid-template-columns: 1fr 57rem 57rem 1fr;
+
+    &__title {
+        font-size: 2rem;
+        line-height: 1.2;
+        color: rgb(23, 193, 160);
+        font-weight: 700;
+        grid-column: 2/3;
+        grid-row: 2/3;
+        padding-top: 11.4rem;
+    }
+
+    &__sub-title {
+        margin-top: 17.1rem;
+        grid-column: 2/3;
+        grid-row: 2/3;
+        font-size: 3.6rem;
+        font-weight: 400;
+    }
+
+    &__img {
+        grid-row: 2/3;
+        grid-column: 3/4;
+        background-image: url('/biztoss-section-3.png');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: 50% 50%;
+    }
+}
+
+.section--4 {
+    display: grid;
+    grid-template-columns: 1fr 46.3167rem 65.6833rem 1fr;
+    grid-template-rows: 10.2rem 36.9083rem 9rem;
+
+    &__img {
+        grid-column: 2/3;
+        grid-row: 2/3;
+        background-image: url('/biztoss-section-4.png');
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
+    &__text-container {
+        padding-top: 7.1rem;
+        padding-left: 8.7833rem;
+        grid-row: 2/3;
+        grid-column: 3/4;
+    }
+
+    &--text {
+        &__1 {
+            color: rgb(23, 193, 160);
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        &__2 {
+            font-size: 3.6rem;
+            margin-top: 3.2rem;
+        }
+    }
+
+}
+
+.section--5 {
+    display: grid;
+    grid-template-columns: 1fr 55.7rem 56.3rem 1fr;
+    grid-template-rows: 5.3rem 39.5rem 2.9rem;
+    background-color: rgba(183, 223, 217, 0.2);
+
+    &--text {
+        &__container {
+            grid-row: 2/3;
+            grid-column: 2/3;
+            padding-top: 10.2rem;
+            line-height: 3rem;
+        }
+
+        &__1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: rgb(23, 193, 160);
+            margin-bottom: 3.2rem;
+
+        }
+
+        &__2 {
+            font-size: 3.6rem;
+            line-height: 1.2;
+        }
+    }
+
+    &--gallery {
+        grid-row: 2/3;
+        grid-column: 3/4;
+        background-image: url('/biztoss-section-5.png');
+        background-size: cover;
+
+
+
+    }
+}
+
+.section--6 {
+    display: grid;
+    grid-template-columns: 1fr 46.3167rem 65.6833rem 1fr;
+    grid-template-rows: 8.7rem 32.7467rem 8rem;
+
+    &--gallery {
+        grid-column: 2/3;
+        grid-row: 2/3;
+        background-image: url('/biztoss-section-6.png');
+        background-size: cover;
+    }
+
+    &--text {
+        &__container {
+            grid-column: 3/4;
+            grid-row: 2/3;
+            padding-left: 8.3rem;
+            padding-top: 8.7rem;
+
+        }
+
+        &__1 {
+            color: rgb(23, 193, 160);
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 4.46rem;
+        }
+
+        &__2 {
+            font-size: 3.6rem;
+
+        }
+    }
+}
+
+.section--7 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 50rem;
+    padding-top: 9.9rem;
+    padding-bottom: 12.7rem;
+    background-color: rgba(183, 223, 217, 0.2);
+
+    &--text {
+        font-size: 2rem;
+        font-weight: 400;
+        color: rgb(83, 87, 102);
+        width: 112rem;
+        margin-bottom: 1.9rem;
+    }
+
+    &--gallery {
+        width: 112rem;
+        display: flex;
+        height: 22.8rem;
+
+        &__item {
+            width: 22.8rem;
+            height: 22.8rem;
+            padding: 1rem;
+
+            &:first-child {
+                padding-left: 0;
+            }
+        }
+
+    }
+
+}
