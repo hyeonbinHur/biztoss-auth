@@ -1,5 +1,7 @@
 "use client";
 import { useState, ChangeEvent, useRef, useEffect } from "react";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import KameraPng from "@/public/camera.png";
@@ -11,6 +13,7 @@ import {
   PutObjectCommand,
   ObjectCannedACL,
 } from "@aws-sdk/client-s3";
+import * as util from "@/util/util";
 
 interface UserInfo {
   image: string;
@@ -19,7 +22,11 @@ interface UserInfo {
   "pw check": string;
   username: string;
   usertype: string;
+  contact: string;
 }
+
+type IsValid = "valid" | "empty" | "wrong" | "none";
+
 const FormComp = () => {
   const form1 = useForm<UserInfo>();
   const { register, handleSubmit } = form1;
@@ -36,6 +43,13 @@ const FormComp = () => {
   const days = Array.from({ length: 31 }, (_, i) => i + 1);
   const dropdownRef = useRef<HTMLUListElement | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const router = useRouter();
+
+  const [isEmailValid, setIsEmailValid] = useState<IsValid>("none");
+  const [isPWValid, setIsPWValid] = useState<IsValid>("none");
+  const [isConfirmPWValid, setIsConfirmPWValid] = useState<IsValid>("none");
+  const [isNameValid, setIsNameVald] = useState<IsValid>("none");
+  const [isContactValid, setIsContactValid] = useState<IsValid>("none");
 
   const handleClickOutside = (event: MouseEvent) => {
     if (
@@ -45,7 +59,6 @@ const FormComp = () => {
       setIsEditImage(false);
     }
   };
-
   //s3 config
   const s3Client = new S3Client({
     region: "us-east-1",
@@ -85,8 +98,7 @@ const FormComp = () => {
 
   const uploadFile = async () => {
     if (!ogFile) {
-      console.error("No file selected for upload");
-      return false;
+      return "https://biztoss-hb.s3.us-east-1.amazonaws.com/upload/profile-picture.png";
     }
 
     const params = {
@@ -107,23 +119,77 @@ const FormComp = () => {
       return false;
     }
   };
+  const validCheck = (userinfo: UserInfo): Boolean => {
+    const emailValid = util.isEmailValid(userinfo.email);
+    const passwordValid = util.isPasswordValid(userinfo.password);
+    const pwConfirmValid = util.isConformPasswordValid(
+      userinfo.password,
+      userinfo["pw check"]
+    );
+    const nameValid = util.isNameValid(userinfo.username);
+    const contactValid = util.isContactValid(userinfo.contact);
+    if (emailValid === "valid") {
+      setIsEmailValid(emailValid);
+    } else {
+      setIsEmailValid(emailValid);
+      return false;
+    }
+    if (passwordValid === "valid") {
+      setIsPWValid(passwordValid);
+    } else {
+      setIsPWValid(passwordValid);
+      return false;
+    }
+    if (pwConfirmValid === "valid") {
+      setIsConfirmPWValid(pwConfirmValid);
+    } else {
+      setIsConfirmPWValid(pwConfirmValid);
+      return false;
+    }
+    if (nameValid === "valid") {
+      setIsNameVald(nameValid);
+    } else {
+      setIsNameVald(nameValid);
+      return false;
+    }
+    if (contactValid === "valid") {
+      setIsContactValid(contactValid);
+    } else {
+      setIsContactValid(contactValid);
+      return false;
+    }
+    return true;
+  };
 
   const handleSignUp = async (userinfo: UserInfo) => {
     const imageURL = await uploadFile();
+    const isAllgood = validCheck(userinfo);
+
     if (imageURL !== false) {
-      const storedUserType = localStorage.getItem("userType");
-      userinfo.usertype = storedUserType as string;
-      userinfo.image = imageURL;
-      const response = await fetch("/api/auth/signup", {
-        method: "POST",
-        body: JSON.stringify(userinfo),
-      });
-      const data = await response.json();
-      if (data.error) {
-        toast.error(data.error);
+      if (isAllgood === true) {
+        const storedUserType = localStorage.getItem("userType");
+        userinfo.usertype = storedUserType as string;
+        userinfo.image = imageURL;
+        const response = await fetch("/api/auth/signup", {
+          method: "POST",
+          body: JSON.stringify(userinfo),
+        });
+        const data = await response.json();
+        if (data.error) {
+          toast.error(data.error);
+        } else {
+          const response = await signIn("credentials", {
+            redirect: false,
+            email: userinfo.email,
+            password: userinfo.password,
+          });
+          if (response && !response.ok) {
+            toast.error(response.error || "Failed to sign in");
+          } else {
+            router.push("/");
+          }
+        }
       } else {
-        console.log(userinfo);
-        toast.success("Account created");
       }
     } else {
       toast.error("Image upload failed");
@@ -133,6 +199,7 @@ const FormComp = () => {
   const handleEditClick = () => {
     fileInputRef.current?.click(); // 클릭 이벤트를 트리거
   };
+
   return (
     <form onSubmit={handleSubmit(handleSignUp)} className="signup--form">
       <section className="signup--avatar-section">
@@ -210,58 +277,117 @@ const FormComp = () => {
         />
       </section>
       <section className="signup--section">
-        <input
-          className="signup--input signup--input__first"
-          type="text"
-          placeholder="이메일"
-          required
-          {...register("email")}
-        />
+        {/* 평상시, 비었음, 성공, 틀림 */}
+        <div
+          className={`signup--input__container signup--input__container__first ${
+            isEmailValid === "empty" || isEmailValid === "wrong"
+              ? "signup--input__container__wrong"
+              : ""
+          }`}
+        >
+          <input
+            className="signup--input signup--input"
+            type="text"
+            placeholder="이메일"
+            {...register("email")}
+          />
+          {(isEmailValid === "empty" || isEmailValid === "wrong") && (
+            <span className="signup__invalid">
+              이메일을 정확하게 입력하세요.
+            </span>
+          )}
+        </div>
 
-        {/* <span>이메일을 정확히 입력하세요</span> */}
-
-        <input
-          className="signup--input signup--input__second"
-          type="password"
-          placeholder="비밀번호"
-          required
-          {...register("password")}
-        />
-
-        <input
-          className="signup--input signup--input__last"
-          type="password"
-          placeholder="비밀번호 확인"
-          required
-          {...register("pw check")}
-        />
+        <div
+          className={`signup--input__container signup--input__container__first ${
+            isPWValid === "empty" || isPWValid === "wrong"
+              ? "signup--input__container__wrong"
+              : ""
+          }`}
+        >
+          <input
+            className="signup--input signup--input"
+            type="password"
+            placeholder="비밀번호"
+            {...register("password")}
+          />
+          {isPWValid === "wrong" && (
+            <span className="signup__invalid">
+              최소 8글자 이상, 대문자, 특수문자 포함 필수.
+            </span>
+          )}
+          {isPWValid === "empty" && (
+            <span className="signup__invalid">비밀번호를 입력하세요.</span>
+          )}
+        </div>
+        <div
+          className={`signup--input__container  ${
+            isConfirmPWValid === "empty" || isConfirmPWValid === "wrong"
+              ? "signup--input__container__wrong"
+              : ""
+          }`}
+        >
+          <input
+            className="signup--input signup--input__last"
+            type="password"
+            placeholder="비밀번호 확인"
+            {...register("pw check")}
+          />
+          {isConfirmPWValid === "wrong" && (
+            <span className="signup__invalid">
+              비밀번호가 일치하지 않습니다.
+            </span>
+          )}
+          {isConfirmPWValid === "empty" && (
+            <span className="signup__invalid">
+              비밀번호를 한번 더 입력 하세요.
+            </span>
+          )}
+        </div>
       </section>
 
       <section className="signup--section">
         <span className="signup--label">
           이름 <span className="signup--blue"></span>
         </span>
-
-        <input
-          className="signup--input"
-          type="text"
-          placeholder="이름"
-          required
-          {...register("username")}
-        />
+        <div
+          className={`signup--input__container  ${
+            isNameValid === "empty" ? "signup--input__container__wrong" : ""
+          }`}
+        >
+          <input
+            className="signup--input"
+            type="text"
+            placeholder="이름"
+            {...register("username")}
+          />
+          {isNameValid === "empty" && (
+            <span className="signup__invalid">이름을(를) 입력하세요</span>
+          )}
+        </div>
       </section>
 
       <section className="signup--section">
         <span className="signup--label">
           연락처 <span className="signup--blue"></span>
         </span>
-        <input
-          className="signup--input"
-          type="text"
-          placeholder="연락처"
-          required
-          {...register("username")}
-        />
+        <div
+          className={`signup--input__container  ${
+            isContactValid === "empty" || isContactValid === "wrong"
+              ? "signup--input__container__wrong"
+              : ""
+          }`}
+        >
+          <input
+            className="signup--input"
+            type="number"
+            placeholder="연락처"
+            {...register("contact")}
+          />
+          {(isContactValid === "wrong" || isContactValid === "empty") && (
+            <span className="signup__invalid">연락처를 입력하세요</span>
+          )}
+        </div>
       </section>
 
       <section className="signup--section">
@@ -271,7 +397,6 @@ const FormComp = () => {
           <select
             value={year}
             onChange={(e) => setYear(e.target.value)}
-            required
             className="signup--birth__item"
           >
             <option value="">연도</option>
@@ -285,7 +410,6 @@ const FormComp = () => {
           <select
             value={month}
             onChange={(e) => setMonth(e.target.value)}
-            required
             className="signup--birth__item"
           >
             <option value="">월</option>
@@ -299,7 +423,6 @@ const FormComp = () => {
             className="signup--birth__item"
             value={day}
             onChange={(e) => setDay(e.target.value)}
-            required
           >
             <option value="">일</option>
             {days.map((d) => (

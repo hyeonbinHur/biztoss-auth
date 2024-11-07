@@ -21,20 +21,34 @@
     }
 
     &--input {
+        width: 100%;
         padding: 1.2rem 1.6rem;
         font-size: inherit;
         color: #000;
         line-height: 1.2;
-        border: 1px solid rgba(54, 54, 54, 0.19);
-
+        border: none;
         &__first {
             border-bottom: 0;
         }
-
         &__second {
             border-bottom: 0;
         }
+        &:focus{
+            outline: none;
+        }
 
+
+        &__container{
+            border: 1px solid rgba(54, 54, 54, 0.19);
+            &__first{
+                border-bottom: 0;
+            }
+            &__wrong{
+                border: 1px solid #F84A71;
+            }
+        }
+
+       
     }
 
     &--avatar {
@@ -112,6 +126,11 @@
     }
     &--avatar-section{
         position: relative;
+    }
+    &__invalid{
+        color: #F84A71;
+        padding: .7rem 0 0 1.6rem;
+        font-size: 1.2rem;
     }
 }
 .signup-image--dropdown{

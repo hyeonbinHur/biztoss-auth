@@ -8,7 +8,6 @@ import { useState } from "react";
 const page = () => {
   const { data: session } = useSession();
   const router = useRouter();
-
   const handleClickSeller = () => {
     if (session?.user) {
       //유저정보 셀러로 바로 업데이트
@@ -17,7 +16,6 @@ const page = () => {
       router.push("/signUpType/seller");
     }
   };
-
   const handleClickBuyer = () => {
     if (session?.user) {
       //유저정보 바이어로 바로 업데이트
@@ -26,7 +24,6 @@ const page = () => {
       router.push("/signUpType/buyer");
     }
   };
-
   return (
     <section className="signup-usertype">
       <div className="signup-item__1">

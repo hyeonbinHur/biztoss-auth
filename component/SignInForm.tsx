@@ -1,12 +1,9 @@
 "use client";
 
-import { signIn, signOut, useSession } from "next-auth/react";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
+import { signIn } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import Link from "next/link";
-import KaKao from "@/public/kakao_icon.png";
 
 interface UserInfo {
   email: string;
@@ -16,17 +13,21 @@ const FormComp = () => {
   const form1 = useForm<UserInfo>();
   const { register, handleSubmit } = form1;
 
-  const handleSignUp = async (userinfo: UserInfo) => {
+  const handleSignin = async (userinfo: UserInfo) => {
     console.log(userinfo);
-
+    if (userinfo.email === "") {
+      alert("아이디를 입력 하세요.");
+    }
+    if (userinfo.password === "") {
+      alert("비밀번호를 입력 하세요.");
+    }
     const response = await signIn("credentials", {
       redirect: false,
       email: userinfo.email,
       password: userinfo.password,
     });
-
     if (response && !response.ok) {
-      toast.error(response.error || "Failed to sign in");
+      alert("잘못된 아이디 또는 비밀번호입니다.");
     } else {
       toast.success("Now signed in");
     }
@@ -43,18 +44,16 @@ const FormComp = () => {
         카카오로 시작하기
       </button>
       <div className="divider">또는</div>
-      <form onSubmit={handleSubmit(handleSignUp)} className="signinform--form">
+      <form onSubmit={handleSubmit(handleSignin)} className="signinform--form">
         <input
           type="text"
           placeholder="이메일"
-          required
           {...register("email")}
-          className="signinform--input"
+          className="signinform--input signinform--input__1"
         />
         <input
           type="password"
           placeholder="비밀번호"
-          required
           {...register("password")}
           className="signinform--input"
         />
