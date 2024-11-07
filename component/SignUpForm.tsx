@@ -6,7 +6,11 @@ import KameraPng from "@/public/camera.png";
 import DefaultUser from "@/public/profile-picture.png";
 import EditPng from "@/public/edit.png";
 import BinPng from "@/public/trash-bin.png";
-import AWS from "aws-sdk";
+import {
+  S3Client,
+  PutObjectCommand,
+  ObjectCannedACL,
+} from "@aws-sdk/client-s3";
 
 interface UserInfo {
   image: string;
@@ -19,6 +23,7 @@ interface UserInfo {
 const FormComp = () => {
   const form1 = useForm<UserInfo>();
   const { register, handleSubmit } = form1;
+
   //const image file config
   const [isEditImage, setIsEditImage] = useState(false);
   const [uploadImgUrl, setUploadImgUrl] = useState("");
@@ -32,8 +37,6 @@ const FormComp = () => {
   const dropdownRef = useRef<HTMLUListElement | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  //s3 config
-  const [bucketInfo, setBucketInfo] = useState<any>(null);
   const handleClickOutside = (event: MouseEvent) => {
     if (
       dropdownRef.current &&
@@ -43,18 +46,14 @@ const FormComp = () => {
     }
   };
 
-  useEffect(() => {
-    // assign & access to the bucket using AWS root key
-    AWS.config.update({
-      accessKeyId: process.env.NEXT_PUBLIC_S3_ACCESS,
-      secretAccessKey: process.env.NEXT_PUBLIC_S3_SECRET_ACCESS,
-    });
-    const myBucket = new AWS.S3({
-      params: { Bucket: "biztoss-hb" },
-      region: "us-east-1",
-    });
-    setBucketInfo(myBucket);
-  }, []);
+  //s3 config
+  const s3Client = new S3Client({
+    region: "us-east-1",
+    credentials: {
+      accessKeyId: process.env.NEXT_PUBLIC_S3_ACCESS as string,
+      secretAccessKey: process.env.NEXT_PUBLIC_S3_SECRET_ACCESS as string,
+    },
+  });
 
   useEffect(() => {
     if (isEditImage) {
@@ -85,25 +84,28 @@ const FormComp = () => {
   };
 
   const uploadFile = async () => {
+    if (!ogFile) {
+      console.error("No file selected for upload");
+      return false;
+    }
+
     const params = {
-      ACL: "public-read",
-      ContentType: "image/jpeg",
-      Body: ogFile,
       Bucket: "biztoss-hb",
-      Key: "upload/" + ogFile.name,
+      Key: `upload/${ogFile.name}`,
+      Body: ogFile,
+      ACL: "public-read" as ObjectCannedACL,
+      ContentType: "image/jpeg",
     };
 
-    return new Promise<string | false>((resolve) => {
-      bucketInfo.putObject(params).send((err: any) => {
-        if (err) {
-          console.log(err);
-          resolve(false);
-        } else {
-          const url = `https://${params.Bucket}.s3.${bucketInfo.config.region}.amazonaws.com/${params.Key}`;
-          resolve(url);
-        }
-      });
-    });
+    try {
+      const command = new PutObjectCommand(params);
+      await s3Client.send(command);
+      const url = `https://biztoss-hb.s3.us-east-1.amazonaws.com/${params.Key}`;
+      return url;
+    } catch (err) {
+      console.error("Upload error:", err);
+      return false;
+    }
   };
 
   const handleSignUp = async (userinfo: UserInfo) => {
@@ -197,7 +199,6 @@ const FormComp = () => {
         <input
           type="file"
           placeholder="유저 프로필 아바타"
-          required
           accept="image/*"
           {...register("image")}
           ref={(e) => {

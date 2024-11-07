@@ -2,7 +2,11 @@
 import Image from "next/image";
 import Logo from "@/public/bizz.png";
 import NavLink from "./NavLink";
+import { useSession } from "next-auth/react";
+
 const MainHeader = () => {
+  const { data: session, update } = useSession();
+
   return (
     <nav>
       <ul className="nav--container">
@@ -31,8 +35,13 @@ const MainHeader = () => {
           <NavLink href="/">.</NavLink>
         </li>
         <li>
-          <NavLink href="/signin">로그인</NavLink>
+          {session?.user ? (
+            <div>{session?.user?.name}</div>
+          ) : (
+            <NavLink href="/signin">로그인</NavLink>
+          )}
         </li>
+        <button onClick={() => console.log(session?.user)}>console</button>
       </ul>
     </nav>
   );

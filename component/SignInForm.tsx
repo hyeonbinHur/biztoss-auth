@@ -34,7 +34,12 @@ const FormComp = () => {
 
   return (
     <div className="signinform-item--2">
-      <button onClick={() => signIn("kakao")} className="btn btn-kakao">
+      <button
+        onClick={() => {
+          signIn("kakao");
+        }}
+        className="btn btn-kakao"
+      >
         카카오로 시작하기
       </button>
       <div className="divider">또는</div>

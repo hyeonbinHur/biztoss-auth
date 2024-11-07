@@ -13,6 +13,7 @@ const page = () => {
     if (session?.user) {
       //유저정보 셀러로 바로 업데이트
     } else {
+      document.cookie = "userType=seller; path=/; max-age=300";
       router.push("/signUpType/seller");
     }
   };
@@ -21,6 +22,7 @@ const page = () => {
     if (session?.user) {
       //유저정보 바이어로 바로 업데이트
     } else {
+      document.cookie = "userType=buyer; path=/; max-age=300";
       router.push("/signUpType/buyer");
     }
   };
