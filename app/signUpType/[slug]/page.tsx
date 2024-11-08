@@ -1,11 +1,20 @@
 "use client";
 import { signIn, signOut, useSession } from "next-auth/react";
 import React, { useEffect } from "react";
+import { useRouter } from "next/navigation";
+
 import { useParams } from "next/navigation";
 import Link from "next/link";
 const page = () => {
   const params = useParams();
   const { slug } = params;
+  const { data: session } = useSession();
+  const router = useRouter();
+  useEffect(() => {
+    if (session) {
+      router.push("/applyBusinessSale");
+    }
+  }, [session]);
   useEffect(() => {
     localStorage.setItem("userType", slug as string);
   }, []);

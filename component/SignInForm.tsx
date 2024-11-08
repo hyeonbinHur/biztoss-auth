@@ -3,6 +3,7 @@
 import { signIn } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 interface UserInfo {
@@ -12,6 +13,7 @@ interface UserInfo {
 const FormComp = () => {
   const form1 = useForm<UserInfo>();
   const { register, handleSubmit } = form1;
+  const router = useRouter();
 
   const handleSignin = async (userinfo: UserInfo) => {
     console.log(userinfo);
@@ -29,7 +31,7 @@ const FormComp = () => {
     if (response && !response.ok) {
       alert("잘못된 아이디 또는 비밀번호입니다.");
     } else {
-      toast.success("Now signed in");
+      router.push("/applyBusinessSale");
     }
   };
 

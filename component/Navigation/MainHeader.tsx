@@ -2,7 +2,7 @@
 import Image from "next/image";
 import NavLink from "./NavLink";
 import NavLogo from "@/public/biztoss-nav-logo.png";
-import { useSession } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 
 const MainHeader = () => {
   const { data: session, update } = useSession();
@@ -33,9 +33,12 @@ const MainHeader = () => {
         <li>
           <NavLink href="/">.</NavLink>
         </li>
-        <li>
+
+        <li style={{ cursor: "pointer" }}>
           {session?.user ? (
-            <div>{session?.user?.name}</div>
+            <div onClick={() => signOut({ callbackUrl: "/" })}>
+              {session?.user?.name} && 로그아웃
+            </div>
           ) : (
             <NavLink href="/signin">로그인</NavLink>
           )}
