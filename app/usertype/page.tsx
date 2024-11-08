@@ -2,9 +2,7 @@
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-
 // type UserType = "Seller" | "Buyer" | undefined;
-
 const page = () => {
   const { data: session } = useSession();
   const router = useRouter();
