@@ -1,14 +1,48 @@
 @use '../base/variable.scss';
 
 .sale-form {
-    display: flex;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: minmax(6.6rem, 1fr) minmax(auto, 106rem) minmax(6.6rem, 1fr);
 }
 
 .form {
     margin-top: 6rem;
     margin-bottom:12.6rem;
-    width: 106.583rem;
+    max-width: 106.583rem;;
+    grid-column: 2/3;
+    &--file{
+        padding: 1rem 4rem;
+        display: flex;
+        font-size: 1.2rem;
+        align-items: center;
+        font-weight: bold;
+        cursor: pointer;
+        &--img{
+            width: 1.2rem;
+            height: 1.2rem;
+            margin-right: .7rem;
+        }
+
+        &--size{
+            color: #757575 !important;
+            font-size: 1.3rem;
+        }
+        &--container{
+            height: 4.12rem;
+            border-radius: .3rem;
+            display: flex;
+            align-items: center;
+            padding: .6rem 1.2rem;
+            border: 1px solid rgb(204, 204, 204);
+        }
+        &--delete{
+            width: 1.8rem;
+            height: 1.8rem;
+            margin-left: .5rem;
+            cursor: pointer;
+        
+        }
+    }
 
     &--section {
         &__1 {
@@ -36,7 +70,6 @@
 
         }
 
-        &__3 {}
     }
 }
 
@@ -70,10 +103,13 @@
             font-size: 1.6rem;
             color: variable.$color-grey-8;
             font-weight: 400;
+           
         }
     }
 }
-
+.input--textarea{
+    height: 8.25rem !important;
+}
 .input--basic {
     border: none;
     outline: none;
@@ -99,6 +135,7 @@
         color: variable.$color-blue;
         font-weight: 700;
         font-size: 1.8rem;
+        text-decoration: none;
     }
 
     &--grey {

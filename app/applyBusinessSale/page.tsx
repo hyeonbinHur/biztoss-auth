@@ -1,7 +1,29 @@
 "use client";
-import { useState, ChangeEvent, FormEvent, useEffect } from "react";
+import { useState, ChangeEvent, FormEvent, useEffect, useRef } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
+import Upload from "@/public/upload.png";
+import Close from "@/public/cross.png";
+
+const CustomToast = ({
+  message,
+  onClose,
+}: {
+  message: string;
+  onClose: () => void;
+}) => {
+  return (
+    <div className="toastContainer">
+      <div className="toastBody">
+        <p className="toastMessage">{message}</p>
+      </div>
+      <button className="toastButton" onClick={onClose}>
+        확인
+      </button>
+    </div>
+  );
+};
 
 interface BusinessInfo {
   serviceType: string[];
@@ -32,15 +54,14 @@ interface BuyerInteraction {
 const page = () => {
   const { data: session } = useSession();
   const router = useRouter();
-  if (!session) {
-    router.push("/signin");
-  }
 
   useEffect(() => {
     if (!session) {
       router.push("/signin");
     }
   }, []);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [selectedFile, setSelectedFile] = useState<any>(null);
 
   const [businessInfo, setBusinessInfo] = useState<BusinessInfo>({
     serviceType: [],
@@ -142,25 +163,41 @@ const page = () => {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const index = businessInfo.serviceType.indexOf("ETC");
-    if (index !== -1) {
-      businessInfo.serviceType[index] === solutionETC;
+    let newBusinessInfo = businessInfo;
+    if (solutionETC.length !== 0) {
+      newBusinessInfo.serviceType.push(solutionETC);
     }
+
     const outputData = {
-      business_info: businessInfo,
+      business_info: newBusinessInfo,
       owner_info: ownerInfo,
       business_details: {
         ...businessDetails,
-        business_registration: businessDetails.businessRegistrationFile
-          ? businessDetails.businessRegistrationFile.name
-          : null,
+        business_registration: selectedFile === null ? null : selectedFile.name,
       },
       buyer_interaction: buyerInteraction,
     };
     if (!checkFormValidation(outputData)) {
-      alert("필수 항목을 입력하여 주시기 바랍니다.");
+      toast.custom((t) => (
+        <CustomToast
+          message="필수 항목을 입력하여 주시기 바랍니다."
+          onClose={() => toast.dismiss(t.id)}
+        />
+      ));
     } else {
       console.log("Submitted Form Data:", JSON.stringify(outputData, null, 2));
+    }
+  };
+
+  const handleFileClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { files } = e.target;
+    if (files && files[0]) {
+      setSelectedFile(files[0]);
     }
   };
 
@@ -331,6 +368,7 @@ const page = () => {
                 name="serviceType"
                 onChange={handleBusinessInfoChange}
                 value="ETC"
+                checked={solutionETC.length > 0}
               />
               <label htmlFor="etc" className="div--2__label">
                 기타:
@@ -377,7 +415,33 @@ const page = () => {
                 사업자등록증이 있으시다면, 파일을 업로드해주세요. (.png or .jpg
                 형식).
               </p>
-              <input type="file" />
+              {selectedFile === null ? (
+                <p className="form--file" onClick={handleFileClick}>
+                  <img src={Upload.src} className="form--file--img" />
+                  파일 올리기
+                </p>
+              ) : (
+                <p className="form--file--container">
+                  {selectedFile.name}{" "}
+                  <span className="form--file--size">
+                    &nbsp;({Math.round(selectedFile.size / 1024)} Kb)
+                  </span>
+                  <span
+                    className="form--file--delete"
+                    onClick={() => setSelectedFile(null)}
+                  >
+                    <img src={Close.src} className="form--file--delete" />
+                  </span>
+                </p>
+              )}
+
+              <input
+                style={{ display: "none" }}
+                type="file"
+                accept="image/*"
+                onChange={handleFileChange}
+                ref={fileInputRef}
+              />
             </div>
           </div>
 
@@ -555,7 +619,7 @@ const page = () => {
               사유 등 <span className="red-dot"></span>
             </p>
             <textarea
-              className="input--basic"
+              className="input--basic input--textarea"
               name="businessDescription"
               value={businessDetails.businessDescription}
               onChange={handleBusinessDetailsChange}

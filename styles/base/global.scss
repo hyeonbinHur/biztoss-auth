@@ -19,9 +19,9 @@ html {
         font-size: 53.5%;
     }
 
-    // @include respond.respond(tap-port){
-    //     font-size: 30.5%;
-    // }
+    @include respond.respond(tap-port){
+        font-size: 30.5%;
+    }
 }
 body {
     font-size: 1.6rem;
